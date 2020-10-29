@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>A-Frame Tutorial</title>
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-event-set-component@3.0.3/dist/aframe-event-set-component.min.js"></script>
+  </head>
+  <body>
+    <a-scene>
+
+      <a-camera>
+        <a-cursor></a-cursor>
+      </a-camera>
+
+      <a-sky
+        color="#DDDDDD"
+      ></a-sky>
+
+      <a-torus
+        radius=0.8 radius-tubular=0.12 segments-tubular=32
+        color="#D16014" roughness=0.3
+        position="-2.5 1 -3"
+        animation="property: scale;
+                  to: 1 0.5 1;
+                  dir: alternate;
+                  dur: 2000;
+                  loop: true;
+                  easing: linear"
+        event-set__enter="_event: mouseenter; visible: false"
+        event-set__leave="_event: mouseleave; visible: true"
+      ></a-torus>
+
+      <a-box
+        width=1 height=1 depth=1
+        position="0 1 -3" rotation="20 40 0"
+        src="https://sun9-35.userapi.com/LvNc9IJx3BswZHwEAgkedaduzwbkV_595qtIHQ/Q5vHWYF1EFw.jpg"
+        animation="property: rotation;
+                  from: 20 0 0;
+                  to: 20 360 0;
+                  dir: alternate;
+                  dur: 4000;
+                  loop: true;
+                  easing: linear"
+      ></a-box>
+    </a-scene>
+
+    <script>
+      var scene = document.querySelector('a-scene');
+      var cone = document.createElement('a-cone');
+      cone.setAttribute('position', '2 1 -3');
+      cone.setAttribute('color', '#113235');
+      cone.setAttribute('metalness', '0.9');
+      cone.setAttribute('height', '1');
+      cone.setAttribute('radius-top', '0');
+      cone.setAttribute('radius-bottom', '0.5');
+      scene.appendChild(cone);
+
+      var t = 0;
+      function render() {
+        requestAnimationFrame(render);
+        t += 0.01;
+        cone.setAttribute('rotation', '0 0 ' + (t*100));
+      }
+      render();
+
+      var colors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple'];
+      var num = 0;
+      var box = document.querySelector('a-box');
+      box.addEventListener('click', function (evt) {
+        box.setAttribute('color', colors[num++%6]);
+      });
+      box.addEventListener('mouseleave', function (evt) {
+        num = 0;
+        box.setAttribute('color', 'white');
+      });
+    </script>
+  </body>
+</html>
